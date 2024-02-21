@@ -3,22 +3,16 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         output = []
-        temp = []
-
-        def valid_comb(left, right):
-            if left == right == n:
-                output.append("".join(temp))
+        def backtrack(s, left, right):
+            if len(s) == 2 * n:
+                output.append(s)
                 return
 
             if left < n:
-                temp.append("(")
-                valid_comb(left+1, right)
-                temp.pop()
+                backtrack(s + '(', left + 1, right)
 
             if right < left:
-                temp.append(")")
-                valid_comb(left, right+1)
-                temp.pop()
+                backtrack(s + ')', left, right + 1)
 
-        valid_comb(0, 0)
+        backtrack("", 0, 0)
         return output
